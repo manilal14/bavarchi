@@ -6,14 +6,22 @@ from flask import render_template,request
 @app.route('/home')
 @app.route('/index')
 def index():
-	return render_template('index.html')
+	return render_template('login.html')
 
-@app.route('/login')
+@app.route('/login' , methods = ['GET', 'POST'])
 def login():
+
+	if request.method == 'POST' and 'uname' in request.form and 'password' in request.form:
+		pass
+		#code to validate the user and redirect to specific page on correct macth
+		#print('Inside the verification on login credentialas with values ',request.form['uname'],request.form['password'])
 	return render_template('login.html')
 
 
-@app.route('/verify_login', methods = ['GET', 'POST'])
-def verify_login():
-	d = {1:'Hotel',2:'Delivery person',3:'Customer'}
-	return "<h1> Welcome {} to Swiggy ".format(d[int(request.form['but']) ])
+@app.route('/register' , methods = ['GET', 'POST'] )
+def register():
+	if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+		#code to push the entered data in to the neo4j database
+		return render_template('login.html')
+
+	return render_template('register.html')
