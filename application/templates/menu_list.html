@@ -1,54 +1,248 @@
+{% extends "managerpage.html" %}
+
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
 <head>
-<title>Page Title</title>
+  {% block head %}
+
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ {% endblock %}
+
 </head>
-<link rel="stylesheet" href="C:\Users\Gaddipati Monica\Desktop\htmls\style.css">
 
+
+{% block content %}
 <body>
-<h6>Menu</h6>
 
-<hr>
 
-<div class="list">
-{% if items %}
-  {% for i in items %}
-    <div class="item twelve columns">
 
-      <div class="twelve columns">
-        <div class="two-thirds column">
-          <h3>{{i.item}}</h3>
-        </div>
+
+<div class="container>
+ <div class="row">
+    <div class="row">
+   <div class="col-sm">
+      <div class="card" style="width:400px">
+         <img class="card-img-top" src=" {{ url_for('static', filename = 'images/p1.jfif') }}" style="width:100%">
+            <div class="card-body">
+            <div>
+      <h4 class="card-title">Manchuria</h4>
+      <p class="card-text">fried mixed veg balls in sweet, sour and hot manchurian sauce</p>
+        <p class="card-text">Price:$19</p>
+         </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="Manchuria" required>
+          </br>
+           <input type="hidden"  name="Price" value="$19" required>
+          </br>
+            <input type="hidden"  name="id" value="1" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+    </div>
+  </div>
+ </div>
+
+
+
+<div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p2.jfif')}}"  style="width:100%">
+    <div class="card-body">
+      <div>
+      <h4 class="card-title">Wings</h4>
+      <p class="card-text">boneless chicken breast ,flour and spices then fried or baked </p>
+        <p class="card-text">Price:$22</p>
+       </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="Wings" required>
+          </br>
+           <input type="hidden"  name="Price" value="$22" required>
+          </br>
+            <input type="hidden"  name="id" value="2" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p3.jfif')}}"  style="width:100%">
+    <div class="card-body">
+      <div>
+      <h4 class="card-title">Chicken Biryani</h4>
+      <p class="card-text">marinated chicken and then parboiled rice, herbs,saffron milk </p>
+       <p class="card-text">Price:$17</p>
+      </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="ChickenBiryani" required>
+          </br>
+           <input type="hidden"  name="Price" value="$17" required>
+          </br>
+            <input type="hidden"  name="id" value="3" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+    </div>
+  </div>
+ </div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm">
+
+
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p4.jfif')}}"  style="width:100%">
+    <div class="card-body">
+      <div>
+      <h4 class="card-title">Chicken Burger</h4>
+      <p class="card-text">1/4 cup bread crumbs, onion, egg, garlic, salt, and pepper</p>
+      <p class="card-text">Price:$ 18</p>
+      </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="ChickenBurger" required>
+          </br>
+           <input type="hidden"  name="Price" value="$18" required>
+          </br>
+            <input type="hidden"  name="id" value="4" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+    </div>
+  </div>
+ </div>
+
+ <div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p5.png')}}"  style="width:100%;height:70%">
+    <div class="card-body">
+      <div>
+      <h4 class="card-title">strawberry juice</h4>
+      <p class="card-text">chopped berries, lemon juice and sugar</p>
+      <p class="card-text">Price:$ 8</p>
+      </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="strawberryJuice" required>
+          </br>
+           <input type="hidden"  name="Price" value="$8" required>
+          </br>
+            <input type="hidden"  name="id" value="5" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+    </div>
+  </div>
+ </div>
+
+ <div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p6.jpg')}}"  style="width:100%">
+    <div class="card-body">
+      <h4 class="card-title">mango juice</h4>
+      <p class="card-text">mangoes, lemon juice and sugar </p>
+       <p class="card-text">Price:$ 9</p>
+       </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="mangoJuice" required>
+          </br>
+           <input type="hidden"  name="Price" value="$9" required>
+          </br>
+            <input type="hidden"  name="id" value="6" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+    </div>
+  </div>
+ </div>
+</div>
+  <div class="row">
+ <div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p7.jpg')}}"  style="width:100%">
+    <div class="card-body">
+      <div>
+      <h4 class="card-title">pizza</h4>
+      <p class="card-text">Fresh tomatoes, fresh mozzarella, fresh basil</p>
+       <p class="card-text">Price:$ 18</p>
 
       </div>
-      <div class="twelve columns">
-        <div>
-          <hr class="separator">
-        </div>
-        <div>
-          <div class="two-thirds column">
-            <p>{{i.category}}</p>
-            <p>{{i.description}}</p>
-            <p>ID #{{i.id}}</p>
-            
-          </div>
-          <div class="one-third column right">
-            <p>{{i.preparationtime}}</p>
-            <p class="price">{{i.price}}</p>
-          </div>
-        </div>
-      </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="pizza" required>
+          </br>
+           <input type="hidden"  name="Price" value="$18" required>
+          </br>
+            <input type="hidden"  name="id" value="7" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
 
     </div>
-  {% endfor %}
-{% else %}
-<div class="item twelve columns">
-  <h3>No items yet.</h3>
-</div>
-{% endif %}
-</div>
+  </div>
+ </div>
 
-<p><a class="to-top" href="#">&uarr; To top</a></p>
 
+
+<div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p8.png')}}"  style="width:100%">
+    <div class="card-body">
+     <div>
+      <h4 class="card-title">Mutton Biryani</h4>
+      <p class="card-text">meat,herbs,saffron milk,ghee and  parboiled rice</p>
+          <p class="card-text">Price:$ 15</p>
+             </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="muttonBiryani" required>
+          </br>
+           <input type="hidden"  name="Price" value="$15" required>
+          </br>
+            <input type="hidden"  name="id" value="8" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+
+    </div>
+  </div>
+ </div>
+<div class="col-sm">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="{{ url_for('static', filename = 'images/p9.png')}}"  style="width:100%">
+    <div class="card-body">
+      <div>
+      <h4 class="card-title">DUM Biryani</h4>
+      <p class="card-text">chicken,herbs,saffron milk,ghee and  parboiled rice</p>
+       <p class="card-text">Price:$ 20</p>
+       </div>
+         <div>
+           <form action="{{ url_for('orderplaced') }}" class="container" method="post">
+           <input type="hidden"  name="Item" value="dumBiryani" required>
+          </br>
+           <input type="hidden"  name="Price" value="$20" required>
+          </br>
+            <input type="hidden"  name="id" value="9" required>
+         <button class="btn btn-primary type="submit">Order</button></br>
+         </div>
+
+    </div>
+  </div>
+ </div>
+</div>
+</div>
 </body>
+
+{% endblock %}
 </html>

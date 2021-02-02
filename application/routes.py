@@ -31,7 +31,7 @@ def register():
 	if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
 		#code to push the entered data in to the neo4j database
 		return render_template('login.html')
-		print(request.form['username']) 
+		print(request.form['username'])
 
 	return render_template('register.html')
 
@@ -46,3 +46,8 @@ def add_new_dish():
 def logout():
 	session.pop('loggedin', None)
 	return render_template('login.html',msg='Logged Out Successfully')
+
+
+@app.route('/orderplaced' , methods = ['GET', 'POST'] )
+def orderplaced():
+	return render_template('menu_list.html',msg='Order Placed Successfully')
