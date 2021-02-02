@@ -1,13 +1,28 @@
 
 <!DOCTYPE html>
 <html>
-<title>Login</title>
-              <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css')}}"/>
+<head>
+
+  <title>Login</title>
+                <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css')}}"/>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+                <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+               <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+            </head>
+
 <body>
 <h1 style="font-size:40px;text-align:Center"> <strong>BAVARCHI </strong></h1>
 
   <h2 align="Center">Login </h2>
   <h6 class="container">or <p>create an account <a href="{{url_for('register') }}">Register</a></p> </h6>
+  {% if msg %}
+      <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%;">
+          {{ msg }}
+      </div>
+  {% endif %}
 <form action="{{ url_for('login') }}" class="container" method="post">
  <div class="container">
     <label for="uname"><b>Username</b></label>

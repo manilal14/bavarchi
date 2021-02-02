@@ -17,6 +17,5 @@ app.config['MYSQL_DB'] = 'REm29D0rwB'
 from application import routes
 
 
-#Visit the below website for the access to the PHP Database and enter the above credentials to login.
+#Visit the below website for the access to the SQL Database and enter the above credentials to login.
 #  https://remotemysql.com/phpmyadmin/index.php
-

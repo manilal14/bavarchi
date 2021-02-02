@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<link rel="stylesheet" href="C:\Users\Gaddipati Monica\Desktop\htmls\style.css">
+
+<body>
+<h6>Menu</h6>
+
+<hr>
+
+<div class="list">
+{% if items %}
+  {% for i in items %}
+    <div class="item twelve columns">
+
+      <div class="twelve columns">
+        <div class="two-thirds column">
+          <h3>{{i.item}}</h3>
+        </div>
+
+      </div>
+      <div class="twelve columns">
+        <div>
+          <hr class="separator">
+        </div>
+        <div>
+          <div class="two-thirds column">
+            <p>{{i.category}}</p>
+            <p>{{i.description}}</p>
+            <p>ID #{{i.id}}</p>
+            
+          </div>
+          <div class="one-third column right">
+            <p>{{i.preparationtime}}</p>
+            <p class="price">{{i.price}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  {% endfor %}
+{% else %}
+<div class="item twelve columns">
+  <h3>No items yet.</h3>
+</div>
+{% endif %}
+</div>
+
+<p><a class="to-top" href="#">&uarr; To top</a></p>
+
+</body>
+</html>
