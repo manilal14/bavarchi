@@ -40,7 +40,6 @@ class User:
             return user['password'] == password
         return False
         
-       
         
         
 
