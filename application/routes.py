@@ -1,6 +1,6 @@
 from application import app
-from flask import render_template,request,session,url_for,redirect
-
+from flask import render_template,request,session,url_for,redirect, flash
+from .models import User, getAllFoodItems
 
 @app.route('/')
 @app.route('/home')
@@ -8,30 +8,48 @@ from flask import render_template,request,session,url_for,redirect
 def index():
 	return render_template('login.html')
 
+
 @app.route('/login' , methods = ['GET', 'POST'])
 def login():
 
 	if request.method == 'POST' and 'uname' in request.form and 'password' in request.form:
 		if request.form['uname'] == 'manager' and request.form['password']=='manager':
-
+			#have to remove it
 			session['loggedin'] = 'manager'
 			return render_template('managerpage.html')
 		else:
-			items = {}
-			return render_template('menu_list.html',items= items)
-			#else we need to here match with the content in the datatbase and then proceed
+			email 	 = request.form['uname']
+			password = request.form['password']
 
-		#code to validate the user and redirect to specific page on correct macth
-		#print('Inside the verification on login credentialas with values ',request.form['uname'],request.form['password'])
+			if User().verify_password(email, password):
+				session['loggedin'] = email
+				flash('Welcome '+email, category='success')
+				all_items = getAllFoodItems()
+				return render_template("menu_list.html", foods=all_items)
+				
+			else:
+				flash('Invalid User', category='danger')
+			
 	return render_template('login.html')
 
 
 @app.route('/register' , methods = ['GET', 'POST'] )
 def register():
+
 	if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-		#code to push the entered data in to the neo4j database
-		return render_template('login.html')
-		print(request.form['username'])
+		name 	 = request.form['username']
+		email 	 = request.form['email']
+		password = request.form['password']
+
+		res = User().registerUser(name, email, password)
+
+		if res:
+			session['loggedin'] = email
+			flash('Welcome '+email, category='success')
+			all_items = getAllFoodItems()
+			return render_template("menu_list.html", foods=all_items)
+		else:
+			flash('Email alreeady registered', category='danger')
 
 	return render_template('register.html')
 

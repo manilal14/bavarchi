@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<title>Register</title>
+{% extends "layout.html" %}
 
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
-<!--<link rel="stylesheet" type="text/css" href="C:/Users/Gaddipati Monica/flaskProject/application/static/css/styles.css">-->
-<body >
-<h1 style="font-size:40px;text-align:Center"> <strong>BAVARCHI </strong></h1>
+{% block body %}
+
 <h1 align="center">Register</h1>
 <form action="{{ url_for('register') }}" class="container" method="post">
  <div class="container">
@@ -25,4 +21,5 @@
 
 
 </form>
-</body>
+
+{% endblock %}
