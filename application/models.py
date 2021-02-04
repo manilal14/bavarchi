@@ -16,6 +16,11 @@ def getAllFoodItems():
     '''
     return graph.run(query).data()
 
+def add_dish(food_id, item, price, image, desc):
+    food = Node('Food_Items', name=item , food_id=food_id , image_path=image , price=price , desc=desc)
+    graph.create(food)
+    return True  
+
 
 class User:
 

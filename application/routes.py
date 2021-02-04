@@ -1,6 +1,6 @@
 from application import app
 from flask import render_template,request,session,url_for,redirect, flash
-from .models import User, getAllFoodItems
+from .models import User, getAllFoodItems, add_dish
 
 @app.route('/')
 @app.route('/home')
@@ -56,9 +56,15 @@ def register():
 
 @app.route('/add_new_dish' , methods = ['GET', 'POST'] )
 def add_new_dish():
-	print(request.form['item'])
-	print(request.form['price'])
-	return render_template('managerpage.html',msg='Dish added successfully')
+	food_id 	 = request.form['food_id']
+	item	 = request.form['item']
+	price = request.form['price']
+	image	 = request.form['image']
+	desc 	 = request.form['desc']
+	add_dish(food_id,item,price,image,desc)
+	msg2=getAllFoodItems()
+
+	return render_template('managerpage.html',msg='Dish added successfully',msg2=msg2)
 
 @app.route('/logout' , methods = ['GET', 'POST'] )
 def logout():
