@@ -3,20 +3,20 @@ from py2neo.matching import *
 
 url = 'http://localhost:7474'
 username = "neo4j"
-password = "monica"
+password = "test"
 
 graph = Graph(url, auth = (username, password))
 matcher = NodeMatcher(graph)
 
 def getAllFoodItems():
     query = '''
-    Match(f:Food_Items) 
+    Match(f:Food_Items)
     RETURN f.food_id AS food_id, f.name AS name,
     f.desc AS desc, f.price AS price, f.image_path AS image_path
     '''
     return graph.run(query).data()
-    
-    
+
+
 class User:
 
     def find_user(self, ema):
@@ -39,12 +39,3 @@ class User:
         if user:
             return user['password'] == password
         return False
-        
-        
-        
-
-
-
-
-        
-    
