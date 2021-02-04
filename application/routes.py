@@ -6,7 +6,7 @@ from .models import User, getAllFoodItems
 @app.route('/home')
 @app.route('/index')
 def index():
-	return render_template('login.html')
+	return render_template('homepage.html')
 
 
 @app.route('/login' , methods = ['GET', 'POST'])
@@ -63,7 +63,7 @@ def add_new_dish():
 @app.route('/logout' , methods = ['GET', 'POST'] )
 def logout():
 	session.pop('loggedin', None)
-	return render_template('login.html',msg='Logged Out Successfully')
+	return render_template('homepage.html',msg='Logged Out Successfully')
 
 
 @app.route('/orderplaced' , methods = ['GET', 'POST'] )

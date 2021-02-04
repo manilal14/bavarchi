@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Baavarchi</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item active" aria-current="page" href="#">Home</a>
+        </div>  
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+        </div>  
+      </div>
+    </div>
+  </nav>
+<div class="container" >
+  
+  <h2>Welcome to the the Bavarachi Restaurant !</h2>
+  <span>Select the item you want to order from 
+menu from the wide range of options provided by the Bavarchi.</span>
+  <br>
+  
+<br><hr width="90%"><br>
+<b><span >Freedom of Choice </span></b><br><br>
+<div >
+
+<span > Breakfast, Lunch, Late Night Dinner </span> Bavarchi is just the right place for you. 
+<br>Simply pick one of the thousands of diverse items . From traditional meals to
+<br>well-known fast foods like Noodles, Pizza  and Burgers along with delicate cuisines such
+<br> as Japanese, Biryani or Punjabi - you can find it all! 
+
+<br><hr width="90%"><br>
+<div class="services">
+<b><span class="head_right">Location</span></b>
+<br><br>
+
+Bavarchi India Corporate Office is located at Bangalore.
+</div>
+
+</div>
+
+<br><br>
+
+</div>
+{% endblock %}

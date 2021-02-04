@@ -3,7 +3,7 @@ from py2neo.matching import *
 
 url = 'http://localhost:7474'
 username = "neo4j"
-password = "test"
+password = "monica"
 
 graph = Graph(url, auth = (username, password))
 matcher = NodeMatcher(graph)
