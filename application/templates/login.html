@@ -1,6 +1,26 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Baavarchi</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link"  href="{{ url_for('home') }}">Home</a>
+      </div> 
+      <div class="navbar-nav">
+        <a class="nav-item active" href="{{ url_for('login') }}">Login</a>
+      </div>
+      <div class="navbar-nav">
+        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+      </div> 
+    </div>
+    
+  </div>
+</nav>
 
   <h2 align="Center">Login </h2>
   <h6 class="container">or <p>create an account <a href="{{url_for('register') }}">Register</a></p> </h6>
@@ -14,7 +34,7 @@
       <input type="password" placeholder="Enter Password" name="password" required>
       </br>
       <button type="submit">Login</button></br>
-      <a href="{{url_for('index')}}"> <button type="button">Back to Home</button></br></a>
+      <a href="{{url_for('home')}}"> <button type="button">Back to Home</button></br></a>
     </div>
   </form>
 

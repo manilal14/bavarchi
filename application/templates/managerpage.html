@@ -27,13 +27,12 @@
       <li class="active"><a href="#">    Home</a></li>
 
     </ul>
+
     <div style="float:right;color:#808080">
 
-
       <a id="btnLogout" href="{{url_for('logout')}}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></div>
-
-
   </div>
+
 </nav>
 <div class="container">
   {% block content %}
@@ -54,6 +53,11 @@
     {% if msg %}
         <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%;">
             {{ msg }}
+        </div>
+    {% endif %}
+    {% if msg2 %}
+        <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%; color:white; background-color: rgb(209, 43, 43);">
+            {{ msg2 }}
         </div>
     {% endif %}
         <div class="tab-pane" id="2a">
@@ -91,18 +95,6 @@
             </div>
 
 
-            <!-- <div class="form-group">
-              <label class="control-label col-sm-2" for="category">Category:</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="category" name="category">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="prepTime">Preperation time:</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="prepTime" name="prepTime">
-              </div>
-              <div class="col-sm-4">   -->
               <button id="addItem"  class="btn btn-warning">Add</button>
               </div>
 

@@ -4,9 +4,10 @@ from .models import User, getAllFoodItems, add_dish
 
 @app.route('/')
 @app.route('/home')
-@app.route('/index')
-def index():
+def home():
 	return render_template('homepage.html')
+@app.route('/index')
+
 
 
 @app.route('/login' , methods = ['GET', 'POST'])
@@ -61,10 +62,13 @@ def add_new_dish():
 	price = request.form['price']
 	image	 = request.form['image']
 	desc 	 = request.form['desc']
-	add_dish(food_id,item,price,image,desc)
-	msg2=getAllFoodItems()
-
-	return render_template('managerpage.html',msg='Dish added successfully',msg2=msg2)
+	
+	#msg2=getAllFoodItems()
+	if add_dish(food_id,item,price,image,desc):
+		return render_template('managerpage.html',msg='Dish added successfully')
+	elif not add_dish(food_id,item,price,image,desc):
+		return render_template('managerpage.html',msg2='Dish already present')
+		
 
 @app.route('/logout' , methods = ['GET', 'POST'] )
 def logout():
