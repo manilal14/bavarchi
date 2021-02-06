@@ -23,9 +23,19 @@ def add_dish(food_id, item, price, image, desc):
     if find_food(item):
         return False
 
-    food = Node('Food_Items', name=item , food_id=food_id , image_path=image , price=price , desc=desc)
+    food = Node('Food_Items', name=item , food_id=int(food_id) , image_path=image , price=int(price) , desc=desc)
     graph.create(food)
     return True  
+
+def delete_dish(food_id,item):
+    print("111111111")
+    if not find_food(item):
+        print("2222222")
+        return False
+
+    query = "Match(f:Food_Items) where f.food_id="+food_id+" and f.name='"+item+"' delete f "
+    graph.run(query)
+    return True 
 
 
 class User:

@@ -1,6 +1,6 @@
 from application import app
 from flask import render_template,request,session,url_for,redirect, flash
-from .models import User, getAllFoodItems, add_dish
+from .models import User, getAllFoodItems, add_dish, delete_dish
 
 @app.route('/')
 @app.route('/home')
@@ -32,6 +32,13 @@ def login():
 				flash('Invalid User', category='danger')
 			
 	return render_template('login.html')
+
+@app.route('/manager' , methods = ['GET', 'POST'])
+def manager():
+	session['loggedin'] = 'manager'
+	return render_template('managerpage.html')
+	return True
+	
 
 
 @app.route('/register' , methods = ['GET', 'POST'] )
@@ -65,9 +72,9 @@ def add_new_dish():
 	
 	#msg2=getAllFoodItems()
 	if add_dish(food_id,item,price,image,desc):
-		return render_template('managerpage.html',msg='Dish added successfully')
+		return render_template('new_dish.html',msg='Dish added successfully')
 	elif not add_dish(food_id,item,price,image,desc):
-		return render_template('managerpage.html',msg2='Dish already present')
+		return render_template('new_dish.html',msg2='Dish already present')
 		
 
 @app.route('/logout' , methods = ['GET', 'POST'] )
@@ -79,3 +86,25 @@ def logout():
 @app.route('/orderplaced' , methods = ['GET', 'POST'] )
 def orderplaced():
 	return render_template('menu_list.html',msg='Order Placed Successfully')
+
+@app.route('/new_dish' , methods = ['GET', 'POST'] )
+def new_dish():
+	return render_template('new_dish.html')
+
+@app.route('/get_all_dish' , methods = ['GET', 'POST'] )
+def get_all_dish():
+	all_items = getAllFoodItems()
+	return render_template('get_all_dish.html', foods=all_items)
+
+@app.route('/remove_dish' , methods = ['GET', 'POST'] )
+def remove_dish():
+	item	 = request.form['item']
+	food_id 	 = request.form['food_id']
+	
+	if delete_dish(food_id,item):
+		all_items = getAllFoodItems()
+		return render_template('get_all_dish.html',msg='Dish removed successfully', foods=all_items)
+	elif delete_dish(food_id,item):
+		all_items = getAllFoodItems()
+		return render_template('get_all_dish.html',msg2='Dish not present', foods=all_items)
+

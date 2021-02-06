@@ -46,7 +46,7 @@
             <div>
 
               <form action="{{ url_for('orderplaced') }}" class="" method="post">
-                <input type="hidden" name="item_name" value="{{item['name']}}" required>
+                <input type="hidden" name="item" value="{{item['name']}}" required>
                 </br>
                 <input type="hidden" name="price" value="{{item['price']}}" required>
                 </br>

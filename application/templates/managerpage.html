@@ -24,7 +24,11 @@
 
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">    Home</a></li>
+      <li class="active"><a href="{{url_for('manager')}}">    Home</a></li>
+      <li class="active"><a href="{{url_for('new_dish')}}">    Add New Dish</a></li>
+      <li class="active"><a href="{{url_for('get_all_dish')}}">    Get All Dish</a></li>
+      <li class="active"><a href="#">    New Order</a></li>
+      <li class="active"><a href="#">    Order Status</a></li>
 
     </ul>
 
@@ -37,77 +41,32 @@
 <div class="container">
   {% block content %}
   <div>
-    <h3 style="float:left;width:60%">Welcome Manager !</h3>
+    <h3 style="float:left;width:60%">Welcome Manager !</h3><br><br><br><br>
+    <h5><b>!!!This page is only for managerial access!!!</b></h5>
+    <p>***********************************************************************************</p>
+    <h5>Here you can:</h5>
+    <ol>
+      <li><h6>Add more dishes to restaurant menu</h6></li>
+      <li><h6>Check the menu and get all dishes present in it</h6></li>
+      <li><h6>Remove a dish from menu if it is out of stock</h6></li>
+      <li><h6>Check for new orders</h6></li>
+      <li><h6>check order status</h6></li>
+
+    </ol>
+    <p>***********************************************************************************</p>
+  
+    <ul>
+      <li><h6>Click here for adding new dishes - 
+        <a href="{{url_for('new_dish')}}"> <button type="button" style="color: rgb(21, 180, 90);">Add New Dish</button></br></a></h6></li>
+      <li><h6>Click here for checking menu and remove any dish -
+        <a href="{{url_for('get_all_dish')}}"> <button type="button" style="color: rgb(21, 180, 90);">Get All Dish</button></br></a></h6></li>
+      <li><h6>Click here for checking menu and remove any dish -
+        <a href="#"> <button type="button" style="color: rgb(21, 180, 90);">New Order</button></br></a></h6></li>
+      <li><h6>Click here for checking menu and remove any dish -
+        <a href="#"> <button type="button" style="color: rgb(21, 180, 90);">Order Status</button></br></a></h6></li>
+    </ul>
 
   </div>
-  <br><br><br><br>
-  <br><br>
-
-    <ul class="nav nav-tabs">
-
-      <li><a href="#2a" data-toggle="tab">Add Dish</a></li>
-      <li><a href="#3a" data-toggle="tab">New Orders</a></li>
-
-    </ul>
-  <div class="tab-content clearfix" style="margin: 20px;">
-    {% if msg %}
-        <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%;">
-            {{ msg }}
-        </div>
-    {% endif %}
-    {% if msg2 %}
-        <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%; color:white; background-color: rgb(209, 43, 43);">
-            {{ msg2 }}
-        </div>
-    {% endif %}
-        <div class="tab-pane" id="2a">
-          <form method = 'post' class="form-horizontal" id="addItemForm" action="{{ url_for('add_new_dish') }}">
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="food_id">food id :</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="food_id" name="food_id">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="item">Item :</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="item" name="item">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="price">Price :</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="price" name="price">
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="image">Image :</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="image" name="image">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="desc">Food Description :</label>
-              <div class="col-sm-4">
-              <input type="text" class="form-control" id="desc" name="desc">
-              </div>
-            </div>
-
-
-              <button id="addItem"  class="btn btn-warning">Add</button>
-              </div>
-
-
-              <div class="tab-pane" id="3a">
-                <h1> Here we need to add code for fetching the data from the database and displaying what and all orders are there.</h1>
-                    </div>
-
-
-
-
-          </form>
-          </div>
         </div>
         {% endblock %}
 </html>

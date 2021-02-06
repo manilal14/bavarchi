@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block body %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card top-margin">
+                        <div class="card-body p-0">
+                           
+        
+                            <hr class="my-5">
+        
+                            <div class="row pb-5 p-5">
+                                <div class="col-md-6">
+                                    <p class="font-weight-bold mb-4">order Information</p>
+                                    
+                                    <p>{{username}}</p>
+                                    
+                                </div>
+        
+                                <div class="col-md-6 text-right">
+                                    <p class="font-weight-bold mb-4">Orders</p>
+                                    
+                                                            </div>
+                            </div>
+        
+                            <div class="row p-5">
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-0 text-uppercase small font-weight-bold">ID</th>
+                                               
+                                                <th class="border-0 text-uppercase small font-weight-bold">Item</th>
+                                                <th class="border-0 text-uppercase small font-weight-bold">Description</th>
+                                                
+                                                <th class="border-0 text-uppercase small font-weight-bold">Total price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for items in o1 %}
+                                            <tr>
+                                                <td>{{ items['food_id']}}</td>
+                                                <td>{{ items['name'] }}</td>
+                                                <td>{{ items['description']}}</td>
+                                                <td>{{items['price'] }}</td>
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                </div>
+            </div>
+        </div>
+{% endblock %}

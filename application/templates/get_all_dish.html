@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  {% block head %}
+  <title>Admin Items</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css')}}" />
+
+  {% endblock %}
+  </head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+        <!--<a class="navbar-brand" href="#">Manager</a>   -->
+
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="{{url_for('manager')}}">    Home</a></li>
+            <li class="active"><a href="{{url_for('new_dish')}}">    Add New Dish</a></li>
+            <li class="active"><a href="{{url_for('get_all_dish')}}">    Get All Dish</a></li>
+            <li class="active"><a href="#">    New Order</a></li>
+            <li class="active"><a href="#">    Order Status</a></li>
+
+        </ul>
+
+        <div style="float:right;color:#808080">
+
+            <a id="btnLogout" href="{{url_for('logout')}}"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+        </div>
+    </div>
+
+</nav>
+<div class="container">
+  {% block content %}
+  <div>
+    <h4 style="width:60%;text-align:left "><b>Restaurant Menu:</b></h4>
+    <h5 style="width:60%;text-align:left ">Remove dish if it is out of stock-</h5>
+
+  </div>
+</div>
+<div class="tab-content clearfix" style="margin: 20px;">
+    {% if msg %}
+        <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%;">
+            {{ msg }}
+        </div>
+    {% endif %}
+    {% if msg2 %}
+        <div class="alert alert-success w-50 wrapper" role="success" style="margin: auto; margin-bottom:3%; color:white; background-color: rgb(209, 43, 43);">
+            {{ msg2 }}
+        </div>
+    {% endif %}
+        
+</div>
+    
+<div class="container">
+    <div class="row">
+          
+        {% for item in foods %}
+          
+        <div class="col-lg-4" >
+               
+            <div class="card">
+                <img class="card-img-top" src="/static/images/{{item['image_path']}}" style="width:360px; height:300px;">
+                <div class="card-body">
+                    <div>
+                        <h4 class="card-title">{{item['name']}}</h4>
+                        <p class="card-text">{{item['desc']}}</p>
+                        <p class="card-text">Price: Rs.{{item['price']}}</p>
+                    </div>
+                    <div>
+                        <form action="{{ url_for('remove_dish') }}" class="" method="post">
+                            <input type="hidden" name="item" value="{{item['name']}}" required>
+                            </br>
+                            <input type="hidden" name="price" value="{{item['price']}}" required>
+                            </br>
+                            <input type="hidden" name="food_id" value="{{item['food_id']}}" required>
+                            <button class="btn btn-primary btn-block" type=" submit">Remove</button></br>
+                            <br><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+          
+        {%endfor%}
+          
+    </div>
+
+    
+
+</div>
+
+        {% endblock %}
+</html>
