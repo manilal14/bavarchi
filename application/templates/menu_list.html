@@ -46,11 +46,11 @@
             <div>
 
               <form action="{{ url_for('orderplaced') }}" class="" method="post">
-                <input type="hidden" name="item" value="{{item['name']}}" required>
+                <input type="hidden" name="item" id="item"  value="{{item['name']}}" required>
                 </br>
-                <input type="hidden" name="price" value="{{item['price']}}" required>
+                <input type="hidden" name="price" id="price" value="{{item['price']}}" required>
                 </br>
-                <input type="hidden" name="food_id" value="{{item['food_id']}}" required>
+                <input type="hidden" name="food_id" id="food_id" value="{{item['food_id']}}" required>
                 <button class="btn btn-primary btn-block" type=" submit">Order</button></br>
             </div>
           </div>

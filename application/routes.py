@@ -37,7 +37,6 @@ def login():
 def manager():
 	session['loggedin'] = 'manager'
 	return render_template('managerpage.html')
-	return True
 	
 
 
@@ -85,7 +84,13 @@ def logout():
 
 @app.route('/orderplaced' , methods = ['GET', 'POST'] )
 def orderplaced():
-	return render_template('menu_list.html',msg='Order Placed Successfully')
+	username = session.get('username')
+	item	 = request.form['item']
+	price = request.form['price']
+	food_id	 = request.form['food_id']
+	User().add_order(username,item,price,food_id)
+	o1= User().getOrder(username)
+	return render_template('display.html',msg='Order Placed Successfully',o1=o1)
 
 @app.route('/new_dish' , methods = ['GET', 'POST'] )
 def new_dish():

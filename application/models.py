@@ -43,6 +43,9 @@ class User:
     def find_user(self, ema):
         return matcher.match('User',email=ema).first()
 
+    def find(self,uname):
+        return matcher.match('User',username=uname).first()
+
     def registerUser(self, name, email, password):
         if self.find_user(email):
             return False
@@ -51,12 +54,25 @@ class User:
         graph.create(user)
         return True
 
-    def find_user(self, ema):
-        return matcher.match('User',email=ema).first()
-
 
     def verify_password(self, email, password):
         user = self.find_user(email)
         if user:
             return user['password'] == password
         return False
+
+    def add_order(self,username,item,price,food_id):
+        user=self.find(username)
+        print(user)
+        print(item)
+        order=Node('Order',name=item,price=price,food_id=food_id)
+        food=find_food(item)
+        rel1=Relationship(user,'ORDERED',order)
+        graph.create(rel1)
+        rel2=Relationship(order,'dishes',food)
+        graph.create(rel2)
+    def getOrder(self,username):
+        query='''MATCH (user:User)-[:ORDERED]->(order:Order)
+        
+        RETURN order.name AS name,order.price AS price,order.food_id AS food_id,order.id AS id,order.date AS date,order.timestamp AS time'''
+        return graph.run(query).data()
