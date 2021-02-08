@@ -31,13 +31,11 @@
             <li class="active"><a href="{{url_for('new_dish')}}">    Add New Dish</a></li>
             <li class="active"><a href="{{url_for('get_all_dish')}}">    Get All Dish</a></li>
             <li class="active"><a href="{{url_for('display_order')}}">    New Order</a></li>
+            <li class="active"><a href="{{url_for('logout')}}">    Logout</a></li>
 
         </ul>
 
-        <div style="float:right;color:#808080">
 
-            <a id="btnLogout" href="{{url_for('logout')}}"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
-        </div>
     </div>
 
 </nav>
@@ -60,16 +58,16 @@
             {{ msg2 }}
         </div>
     {% endif %}
-        
+
 </div>
-    
+
 <div class="container">
     <div class="row">
-          
+
         {% for item in foods %}
-          
+
         <div class="col-lg-4" >
-               
+
             <div class="card">
                 <img class="card-img-top" src="/static/images/{{item['image_path']}}" style="width:360px; height:300px;">
                 <div class="card-body">
@@ -91,14 +89,14 @@
                     </div>
                 </div>
             </div>
-          
+
         </div>
-          
+
         {%endfor%}
-          
+
     </div>
 
-    
+
 
 </div>
 
