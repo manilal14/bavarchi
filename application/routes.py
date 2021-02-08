@@ -27,17 +27,17 @@ def login():
 				flash('Welcome '+email, category='success')
 				all_items = getAllFoodItems()
 				return render_template("menu_list.html", foods=all_items)
-				
+
 			else:
 				flash('Invalid User', category='danger')
-			
+
 	return render_template('login.html')
 
 @app.route('/manager' , methods = ['GET', 'POST'])
 def manager():
 	session['loggedin'] = 'manager'
 	return render_template('managerpage.html')
-	
+
 
 
 @app.route('/register' , methods = ['GET', 'POST'] )
@@ -68,13 +68,13 @@ def add_new_dish():
 	price = request.form['price']
 	image	 = request.form['image']
 	desc 	 = request.form['desc']
-	
+
 	#msg2=getAllFoodItems()
 	if add_dish(food_id,item,price,image,desc):
 		return render_template('new_dish.html',msg='Dish added successfully')
 	elif not add_dish(food_id,item,price,image,desc):
 		return render_template('new_dish.html',msg2='Dish already present')
-		
+
 
 @app.route('/logout' , methods = ['GET', 'POST'] )
 def logout():
@@ -107,7 +107,7 @@ def get_all_dish():
 def remove_dish():
 	item	 = request.form['item']
 	food_id 	 = request.form['food_id']
-	
+
 	if delete_dish(food_id,item):
 		all_items = getAllFoodItems()
 		return render_template('get_all_dish.html',msg='Dish removed successfully', foods=all_items)
@@ -120,4 +120,7 @@ def display_order():
 	o1= User().getOrder_man()
 	return render_template('display_order.html',o1=o1)
 
-
+@app.route('/menu_list' , methods = ['GET', 'POST'] )
+def menu_list():
+	all_items = getAllFoodItems()
+	return render_template("menu_list.html", foods=all_items)
