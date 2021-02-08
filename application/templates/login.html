@@ -3,32 +3,30 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Baavarchi</a>
+    <a class="navbar-brand" href="{{ url_for('home') }}">Baavarchi</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link"  href="{{ url_for('home') }}">Home&ensp;</a>
-      </div> 
+
       <div class="navbar-nav">
         <a class="nav-item" href="{{ url_for('login') }}">Login &nbsp;</a>
       </div>
       <div class="navbar-nav">
         <a class="nav-link" href="{{ url_for('register') }}">Register</a>
-      </div> 
+      </div>
     </div>
-    
+
   </div>
 </nav>
 
-  <h2 align="Center">Login </h2>
-  <h6 class="container">or <p>create an account <a href="{{url_for('register') }}">Register</a></p> </h6>
+  <h1 align="Center">Login </h1>
+
 
   <form action="{{ url_for('login') }}" class="container" method="post">
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+      <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="uname" required>
       </br>
       <label for="psw"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="password" required>

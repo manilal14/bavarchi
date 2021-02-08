@@ -14,14 +14,14 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="#">Home</a>
-      </div>  
+      </div>
     </div>
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto">
         <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-        
-      </div>  
+
+      </div>
     </div>
 
   </div>
@@ -34,7 +34,7 @@
     {% for item in foods %}
 
     <div class="col-lg-4">
-     
+
         <div class="card">
           <img class="card-img-top" src="/static/images/{{item['image_path']}}" style="width:100%">
           <div class="card-body">
@@ -49,7 +49,7 @@
                 <input type="hidden" name="item" id="item"  value="{{item['name']}}" required>
                 </br>
                 <input type="hidden" name="price" id="price" value="{{item['price']}}" required>
-                </br>{{item['food_id']}}
+                </br>
                 <input type="hidden" name="food_id" id="food_id" value="{{item['food_id']}}" required>
                 <button class="btn btn-primary btn-block" type=" submit" name="{{item['food_id']}}" >Order</button></br>
                 </form>

@@ -1,4 +1,5 @@
 *.xml
 *.pyc
-venv/ 
+venv/
+__pycache__/
 application/__pycache__/
