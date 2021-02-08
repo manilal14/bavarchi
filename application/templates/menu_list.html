@@ -49,9 +49,10 @@
                 <input type="hidden" name="item" id="item"  value="{{item['name']}}" required>
                 </br>
                 <input type="hidden" name="price" id="price" value="{{item['price']}}" required>
-                </br>
+                </br>{{item['food_id']}}
                 <input type="hidden" name="food_id" id="food_id" value="{{item['food_id']}}" required>
-                <button class="btn btn-primary btn-block" type=" submit">Order</button></br>
+                <button class="btn btn-primary btn-block" type=" submit" name="{{item['food_id']}}" >Order</button></br>
+                </form>
             </div>
           </div>
         </div>

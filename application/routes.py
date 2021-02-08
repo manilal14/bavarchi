@@ -84,10 +84,12 @@ def logout():
 
 @app.route('/orderplaced' , methods = ['GET', 'POST'] )
 def orderplaced():
-	username = session.get('username')
+	username = session.get('loggedin')
 	item	 = request.form['item']
 	price = request.form['price']
 	food_id	 = request.form['food_id']
+	if food_id in request.form:
+		print(food_id)
 	User().add_order(username,item,price,food_id)
 	o1= User().getOrder(username)
 	return render_template('display.html',msg='Order Placed Successfully',o1=o1)
@@ -112,4 +114,10 @@ def remove_dish():
 	elif delete_dish(food_id,item):
 		all_items = getAllFoodItems()
 		return render_template('get_all_dish.html',msg2='Dish not present', foods=all_items)
+
+@app.route('/display_order' , methods = ['GET', 'POST'] )
+def display_order():
+	o1= User().getOrder_man()
+	return render_template('display_order.html',o1=o1)
+
 

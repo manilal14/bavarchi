@@ -19,6 +19,8 @@ def getAllFoodItems():
 def find_food(fname):
     return matcher.match('Food_Items',name=fname).first()
 
+
+
 def add_dish(food_id, item, price, image, desc):
     if find_food(item):
         return False
@@ -39,6 +41,8 @@ def delete_dish(food_id,item):
 
 
 class User:
+    def find_order(self,uname):
+        return matcher.match('Order',name=uname).first()
 
     def find_user(self, ema):
         return matcher.match('User',email=ema).first()
@@ -62,17 +66,28 @@ class User:
         return False
 
     def add_order(self,username,item,price,food_id):
-        user=self.find(username)
+        user=self.find_user(username)
+        print(username)
         print(user)
-        print(item)
-        order=Node('Order',name=item,price=price,food_id=food_id)
+        #print(item)
+        #print(self.find_order(user))
+        if self.find_order(username):
+            order=self.find_order(username)
+        if not self.find_order(username):
+            order=Node('Order', name=username,food_id=food_id,price=price,item=item)
+            graph.create(order)
+        
         food=find_food(item)
         rel1=Relationship(user,'ORDERED',order)
         graph.create(rel1)
         rel2=Relationship(order,'dishes',food)
         graph.create(rel2)
+
+
     def getOrder(self,username):
-        query='''MATCH (user:User)-[:ORDERED]->(order:Order)
-        
-        RETURN order.name AS name,order.price AS price,order.food_id AS food_id,order.id AS id,order.date AS date,order.timestamp AS time'''
+        query="MATCH (user:User)-[:ORDERED]->(order:Order) - [:dishes]->(food:Food_Items) where user.email='"+username+"'RETURN food.name AS name,food.price AS price,food.food_id AS food_id,order.id AS id,order.date AS date,order.timestamp AS time, food.desc AS description"
+        return graph.run(query).data()
+
+    def getOrder_man(self):
+        query="MATCH (user:User)-[:ORDERED]->(order:Order) - [:dishes]->(food:Food_Items) RETURN food.name AS name,food.price AS price,user.email AS username,order.id AS id,order.date AS date,order.timestamp AS time, food.desc AS description"
         return graph.run(query).data()
