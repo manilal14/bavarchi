@@ -27,17 +27,17 @@ def add_dish(food_id, item, price, image, desc):
 
     food = Node('Food_Items', name=item , food_id=int(food_id) , image_path=image , price=int(price) , desc=desc)
     graph.create(food)
-    return True  
+    return True
 
 def delete_dish(food_id,item):
-    print("111111111")
+    #print("111111111")
     if not find_food(item):
-        print("2222222")
+        #print("2222222")
         return False
 
     query = "Match(f:Food_Items) where f.food_id="+food_id+" and f.name='"+item+"' delete f "
     graph.run(query)
-    return True 
+    return True
 
 
 class User:
@@ -67,8 +67,8 @@ class User:
 
     def add_order(self,username,item,price,food_id):
         user=self.find_user(username)
-        print(username)
-        print(user)
+        #print(username)
+        #print(user)
         #print(item)
         #print(self.find_order(user))
         if self.find_order(username):
@@ -76,7 +76,7 @@ class User:
         if not self.find_order(username):
             order=Node('Order', name=username,food_id=food_id,price=price,item=item)
             graph.create(order)
-        
+
         food=find_food(item)
         rel1=Relationship(user,'ORDERED',order)
         graph.create(rel1)

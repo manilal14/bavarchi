@@ -88,8 +88,8 @@ def orderplaced():
 	item	 = request.form['item']
 	price = request.form['price']
 	food_id	 = request.form['food_id']
-	if food_id in request.form:
-		print(food_id)
+	#if food_id in request.form:
+		#print(food_id)
 	User().add_order(username,item,price,food_id)
 	o1= User().getOrder(username)
 	return render_template('display.html',msg='Order Placed Successfully',o1=o1)
