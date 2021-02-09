@@ -1,6 +1,6 @@
 from application import app
 from flask import render_template,request,session,url_for,redirect, flash
-from .models import User, getAllFoodItems, add_dish, delete_dish
+from .models import User, getAllFoodItems, add_dish, delete_dish, delete_item
 
 @app.route('/')
 def home():
@@ -77,10 +77,11 @@ def logout():
 
 
 #add to cart
-@app.route('/orderplaced' , methods = ['POST'] )
-def orderplaced():
+@app.route('/addToCart' , methods = ['POST'] )
+def addToCart():
 	username 	= session.get('loggedin')
 	food_id	 	= request.form['food_id']
+	
 	food_name	= request.form['item']
 
 	if User().add_to_cart(username, food_id, food_name):
@@ -90,6 +91,20 @@ def orderplaced():
 		#occur only if db crashed but have to handle this
 		print("Cannot added to cart")
 
+@app.route('/remove_order' , methods = ['GET', 'POST'] )
+def remove_order():
+	username 	= session.get('loggedin')
+	item	 = request.form['item']
+	print(item)
+	food_id	 = request.form['food_id']
+
+	if delete_item(username,food_id,item):
+		
+		o1 = User().getUserCartOrder(username)
+		return render_template('display.html',msg='Dish removed successfully',o1=o1)
+	elif delete_item(username,food_id,item):
+		
+		return render_template('display.html',msg2='Dish not present')
 
 @app.route('/menu_list' , methods = ['GET', 'POST'] )
 def menu_list():
@@ -168,6 +183,7 @@ def remove_dish():
 	elif delete_dish(food_id,item):
 		all_items = getAllFoodItems()
 		return render_template('get_all_dish.html',msg2='Dish not present', foods=all_items)
+
 
 
 @app.route('/display_order' , methods = ['GET', 'POST'] )
