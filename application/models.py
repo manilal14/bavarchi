@@ -41,7 +41,7 @@ def delete_item(username,food_id,item):
     print(food_id,username,item)
     if not find_food(item):
         return False
-    query="MATCH (n:User) where n.email = '"+username+"' Match (n)-[:Ordered]->(f:Food_Items) where f.food_id="+food_id+" and f.name='"+item+"' detach delete f"
+    query="MATCH (n:User) where n.email = '"+username+"' Match (n)-[o:Ordered]->(f:Food_Items) where f.food_id="+food_id+" and f.name='"+item+"' detach delete o"
     return graph.run(query)
     
     	
