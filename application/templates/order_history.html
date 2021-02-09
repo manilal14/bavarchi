@@ -18,7 +18,6 @@
                                                 <th class="border-0 text-uppercase small font-weight-bold">Description</th>
 
                                                 <th class="border-0 text-uppercase small font-weight-bold">Total price</th>
-                                                <th class="border-0 text-uppercase small font-weight-bold">remove</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -28,19 +27,7 @@
                                                 <td>{{ items['name'] }}</td>
                                                 <td>{{ items['description']}}</td>
                                                 <td>{{items['price'] }}</td>
-                                                <td> <div>
-                                                    <form action="{{ url_for('remove_order') }}" class="" method="post">
-                                                        <input type="hidden" name="item" value="{{items['name']}}" required>
-                                                        </br>
-                                                       
-                                                        <input type="hidden" name="price" value="{{items['price']}}" required>
-                                                        </br>
-                                                        <input type="hidden" name="food_id" value="{{items['food_id']}}" required>
-                                                        
-                                                        <button class="btn btn-primary btn-block" type=" submit">Remove</button></br>
-                                                        <br><br>
-                                                    </form>
-                                                </div></td>
+                                                
   
                                             </tr>
 
@@ -49,8 +36,7 @@
                                     </table>
                                 </div>
                             </div>
-                        <a href="{{url_for('menu_list')}}"> <button type="button">I want to order more....</button></a>
-                        <a href="{{url_for('place_order')}}"><button type="button">Place Order</button></a>
+                        <a href="{{url_for('menu_list')}}"> <button type="button">home</button></a>
 
                 </div>
             </div>

@@ -83,8 +83,9 @@ def addToCart():
 	food_id	 	= request.form['food_id']
 	
 	food_name	= request.form['item']
+	price	= request.form['price']
 
-	if User().add_to_cart(username, food_id, food_name):
+	if User().add_to_cart(username, food_id, food_name,price):
 		o1 = User().getUserCartOrder(username)
 		return render_template('display.html',msg='Order Placed Successfully',o1=o1)
 	else:
@@ -105,6 +106,22 @@ def remove_order():
 	elif delete_item(username,food_id,item):
 		
 		return render_template('display.html',msg2='Dish not present')
+
+@app.route('/place_order' , methods = ['GET', 'POST'] )
+def place_order():
+	username 	= session.get('loggedin')
+	if User().placeorder(username):
+		all_items = getAllFoodItems()
+		return render_template("menu_list.html", foods=all_items)
+
+@app.route('/order_history' , methods = ['GET', 'POST'] )
+def order_history():
+	username 	= session.get('loggedin')
+	o1 = User().orderhistory(username)
+	print("hiiiiiii")
+	print(o1)
+	return render_template("order_history.html", o1=o1)
+
 
 @app.route('/menu_list' , methods = ['GET', 'POST'] )
 def menu_list():
