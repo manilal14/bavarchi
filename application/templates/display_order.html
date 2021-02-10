@@ -54,20 +54,23 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th class="border-0 text-uppercase small font-weight-bold"><center>Uid</center></th>
                                         <th class="border-0 text-uppercase small font-weight-bold"><center>Username</center></th>
 
                                         <th class="border-0 text-uppercase small font-weight-bold"><center>Item</center></th>
-                                        <th class="border-0 text-uppercase small font-weight-bold"> <center> Description </center> </th>
-
+                                        <th class="border-0 text-uppercase small font-weight-bold"><center>Date</center></th>
+                                        <th class="border-0 text-uppercase small font-weight-bold"><center>Time</center></th>
                                         <th class="border-0 text-uppercase small font-weight-bold"><center>Total price</center></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for items in o1 %}
                                     <tr>
+                                        <td>{{ items['uniqueid']}}</td>
                                         <td>{{ items['username']}}</td>
                                         <td>{{ items['name'] }}</td>
-                                        <td>{{ items['description']}}</td>
+                                        <td>{{ items['Date'] }}</td>
+                                        <td>{{ items['time'] }}</td>
                                         <td>{{items['price'] }}</td>
 
                                     </tr>

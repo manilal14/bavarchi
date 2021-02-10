@@ -12,7 +12,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="border-0 text-uppercase small font-weight-bold">ID</th>
+                                                <th class="border-0 text-uppercase small font-weight-bold"><center>Username</center></th>
 
                                                 <th class="border-0 text-uppercase small font-weight-bold">Item</th>
                                                 <th class="border-0 text-uppercase small font-weight-bold">Description</th>
@@ -23,7 +23,7 @@
                                         <tbody>
                                             {% for items in o1 %}
                                             <tr>
-                                                <td>{{ items['food_id']}}</td>
+                                                <td>{{ items['username'] }}</td>
                                                 <td>{{ items['name'] }}</td>
                                                 <td>{{ items['description']}}</td>
                                                 <td>{{items['price'] }}</td>

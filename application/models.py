@@ -1,5 +1,8 @@
 from py2neo import Graph, Node, Relationship
 from py2neo.matching import *
+from datetime import datetime
+import pytz
+import uuid
 
 url = 'http://localhost:7474'
 username = "neo4j"
@@ -55,7 +58,13 @@ def delete_item(username,food_id,item):
 
 def find_food(fname):
     return matcher.match('Food_Items',name=fname).first()
-    
+
+def date():
+    return datetime.now().strftime('%Y-%m-%d') 
+def timestamp():
+    IST = pytz.timezone('Asia/Kolkata') 
+    datetime_ist = datetime.now(IST) 
+    return datetime_ist.strftime(' %H:%M:%S %Z %z')   
     	
 
 class User:
@@ -122,21 +131,21 @@ class User:
             return o1.order_item AS item'''.format(username)
             pr1=graph.run(q2).data()
             pp1=pr1[0]['item']+"*"+item+"*"
-            print("aabbcc",pr1," ",pp1)
+            #print("aabbcc",pr1," ",pp1)
             q = '''MATCH (n:User) where n.email = '{0}'
             match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering" set o1.order_item='{1}' 
             return o1.price AS price'''.format(username,pp1)
             pr=graph.run(q).data()
-            print("aaaaaa",pr)
+            #print("aaaaaa",pr)
             pp=str(int(pr[0]['price'])+int(price))
-            print("bbbbbb",pp)
+            #print("bbbbbb",pp)
             q1 = "MATCH (n:User) where n.email = '"+username+"' match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='ordering' set o1.price="+pp+" return f.food_id AS food_id, f.name As name,f.desc AS description, f.price AS price"
             graph.run(q1)
             print(order)
         else:
             p=int(price)
             itm="*"+item+"*"
-            order=Node('Order', name=username,order_status="ordering",order_item=itm,price=p)
+            order=Node('Order', uid=str(uuid.uuid4()),name=username,order_status="ordering",order_item=itm,price=p,date=date(),time=timestamp())
             graph.create(order)
         
 
@@ -154,8 +163,7 @@ class User:
 
         q = '''Match (u:User)-[:Ordered]->(o1:Order) where o1.order_status="ordered"
         return o1.name AS username, 
-        o1.order_item As name, o1.price AS price 
+        o1.order_item As name, o1.price AS price,o1.date as Date,o1.uid as uniqueid,o1.time as time
         '''
         #query="MATCH (user:User)-[:ORDERED]->(order:Order) - [:dishes]->(food:Food_Items) RETURN food.name AS name,food.price AS price,user.email AS username,order.id AS id,order.date AS date,order.timestamp AS time, food.desc AS description"
         return graph.run(q).data()
-
