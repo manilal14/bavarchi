@@ -1,4 +1,3 @@
-  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,17 +74,7 @@
                                         <td>{{ items['Date'] }}</td>
                                         <td>{{ items['time'] }}</td>
                                         <td>{{items['price'] }}</td>
-                                        <td> <div>
-                                            <form action="{{ url_for('accept_order') }}" class="" method="post">
-                                                <input type="hidden" name="item" value="{{items['name']}}" required>
-                                               
-                                                <input type="hidden" name="price" value="{{items['price']}}" required>
-                                                <input type="hidden" name="username" value="{{items['username']}}" required>
-                                                
-                                                <button class="btn btn-primary btn-block" type=" submit">Delivered</button></br>
-                                                <br><br>
-                                            </form>
-                                        </div></td>
+                                        <td>Delivered</td>
 
                                     </tr>
                                     {% endfor %}

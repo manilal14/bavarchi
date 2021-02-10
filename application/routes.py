@@ -1,6 +1,6 @@
 from application import app
 from flask import render_template,request,session,url_for,redirect, flash
-from .models import User, getAllFoodItems, add_dish, delete_dish, delete_item
+from .models import User, getAllFoodItems, add_dish, delete_dish, delete_item, accept_order_man, deliver_order_man
 
 @app.route('/')
 def home():
@@ -98,12 +98,13 @@ def remove_order():
 	item	 = request.form['item']
 	print(item)
 	food_id	 = request.form['food_id']
+	price = request.form['price']
 
-	if delete_item(username,food_id,item):
+	if delete_item(username,food_id,item,price):
 		
 		o1 = User().getUserCartOrder(username)
 		return render_template('display.html',msg='Dish removed successfully',o1=o1)
-	elif delete_item(username,food_id,item):
+	elif delete_item(username,food_id,item,price):
 		
 		return render_template('display.html',msg2='Dish not present')
 
@@ -207,3 +208,17 @@ def remove_dish():
 def display_order():
 	o1= User().getOrder_man()
 	return render_template('display_order.html',o1=o1)
+
+@app.route('/accept_order' , methods = ['GET', 'POST'] )
+def accept_order():
+	username	 = request.form['username']
+	price	 = request.form['price']
+	item=request.form['item']
+	if accept_order_man(username,price,item):
+		o1= User().getOrder_man()
+		return render_template('display_order.html',o1=o1)
+
+@app.route('/deliver_order' , methods = ['GET', 'POST'] )
+def deliver_order():
+	o1=deliver_order_man()
+	return render_template('deliver_order.html',o1=o1)

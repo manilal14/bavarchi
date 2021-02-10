@@ -40,19 +40,22 @@ def delete_dish(food_id,item):
     graph.run(query)
     return True
 
-def delete_item(username,food_id,item):
+def delete_item(username,food_id,item,price):
     print(food_id,username,item)
     if not find_food(item):
         return False
     itm="*"+item+"*"
     query="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='ordering' and f.food_id="+food_id+" and f.name='"+item+"' detach delete d"
     graph.run(query)
-    q="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' return o1.order_item AS items"
+    q="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' return o1.order_item AS items, o1.price AS price"
     d=graph.run(q).data()
     i=d[0]['items']
     i=i.replace(itm,'')
-    q1="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' set o1.order_item='"+i+"'return o1.order_item AS items"
-    d=graph.run(q1)
+    p=int(d[0]['price'])-int(price)
+    q1="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' set o1.order_item='"+i+"' return o1.order_item AS items"
+    graph.run(q1)
+    q2="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' set o1.price="+str(p)+"return o1.order_item AS items"
+    graph.run(q2)
 
     return True
 
@@ -65,6 +68,20 @@ def timestamp():
     IST = pytz.timezone('Asia/Kolkata') 
     datetime_ist = datetime.now(IST) 
     return datetime_ist.strftime(' %H:%M:%S %Z %z')   
+
+def accept_order_man(username,price,item):
+    query="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordered' and o1.price="+price+" and o1.order_item='"+item+"' set o1.order_status='delivered' return u"
+    graph.run(query)
+    q1="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='delivered' detach delete d"
+    graph.run(q1)
+    return True
+
+def deliver_order_man():
+    query = '''Match (u:User)-[:Ordered]->(o1:Order) where o1.order_status="delivered"
+        return o1.name AS username, 
+        o1.order_item As name, o1.price AS price,o1.date as Date,o1.uid as uniqueid,o1.time as time
+        '''
+    return graph.run(query).data()
     	
 
 class User:
@@ -108,9 +125,9 @@ class User:
 
     def orderhistory(self,username):
         q = '''MATCH (u:User) where u.email = '{}'
-        Match (u:User)-[:Ordered]->(o1:Order) where o1.order_status="ordered"
+        Match (u:User)-[:Ordered]->(o1:Order) where o1.order_status="ordered" or o1.order_status="delivered"
         return o1.name AS username, 
-        o1.order_item As name, o1.price AS price, o1.order_status AS description 
+        o1.order_item As name, o1.price AS price, o1.order_status AS status ,o1.date as Date,o1.uid as uniqueid,o1.time as time
         '''.format(username)
         return graph.run(q).data()
     
@@ -126,22 +143,24 @@ class User:
 
         if self.find_order(username) and self.check_status("ordering"):
             order=self.find_order(username) and self.check_status("ordering")
-            q2 = '''MATCH (u:User) where u.email = '{0}'
-            match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering"  
-            return o1.order_item AS item'''.format(username)
-            pr1=graph.run(q2).data()
-            pp1=pr1[0]['item']+"*"+item+"*"
-            #print("aabbcc",pr1," ",pp1)
-            q = '''MATCH (n:User) where n.email = '{0}'
-            match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering" set o1.order_item='{1}' 
-            return o1.price AS price'''.format(username,pp1)
-            pr=graph.run(q).data()
-            #print("aaaaaa",pr)
-            pp=str(int(pr[0]['price'])+int(price))
-            #print("bbbbbb",pp)
-            q1 = "MATCH (n:User) where n.email = '"+username+"' match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='ordering' set o1.price="+pp+" return f.food_id AS food_id, f.name As name,f.desc AS description, f.price AS price"
-            graph.run(q1)
-            print(order)
+            try:
+                q2 = '''MATCH (u:User) where u.email = '{0}'
+                match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering"  
+                return o1.order_item AS item'''.format(username)
+                pr1=graph.run(q2).data()
+                pp1=pr1[0]['item']+"*"+item+"*"
+                #print("aabbcc",pr1," ",pp1)
+                q = '''MATCH (n:User) where n.email = '{0}'
+                match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering" set o1.order_item='{1}' 
+                return o1.price AS price'''.format(username,pp1)
+                pr=graph.run(q).data()
+                #print("aaaaaa",pr)
+                pp=str(int(pr[0]['price'])+int(price))
+                #print("bbbbbb",pp)
+                q1 = "MATCH (n:User) where n.email = '"+username+"' match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='ordering' set o1.price="+pp+" return f.food_id AS food_id, f.name As name,f.desc AS description, f.price AS price"
+                graph.run(q1)
+            except:
+                print("order node empty")
         else:
             p=int(price)
             itm="*"+item+"*"
@@ -167,3 +186,4 @@ class User:
         '''
         #query="MATCH (user:User)-[:ORDERED]->(order:Order) - [:dishes]->(food:Food_Items) RETURN food.name AS name,food.price AS price,user.email AS username,order.id AS id,order.date AS date,order.timestamp AS time, food.desc AS description"
         return graph.run(q).data()
+
