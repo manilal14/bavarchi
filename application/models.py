@@ -41,8 +41,17 @@ def delete_item(username,food_id,item):
     print(food_id,username,item)
     if not find_food(item):
         return False
-    query="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where f.food_id="+food_id+" and f.name='"+item+"' detach delete d"
-    return graph.run(query)
+    itm="*"+item+"*"
+    query="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='ordering' and f.food_id="+food_id+" and f.name='"+item+"' detach delete d"
+    graph.run(query)
+    q="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' return o1.order_item AS items"
+    d=graph.run(q).data()
+    i=d[0]['items']
+    i=i.replace(itm,'')
+    q1="MATCH (u:User) where u.email = '"+username+"' Match (u:User)-[o:Ordered]->(o1:Order) where o1.order_status='ordering' set o1.order_item='"+i+"'return o1.order_item AS items"
+    d=graph.run(q1)
+
+    return True
 
 def find_food(fname):
     return matcher.match('Food_Items',name=fname).first()
@@ -89,10 +98,10 @@ class User:
         return True
 
     def orderhistory(self,username):
-        q = '''MATCH (n:User) where n.email = '{}'
-        Match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordered"
+        q = '''MATCH (u:User) where u.email = '{}'
+        Match (u:User)-[:Ordered]->(o1:Order) where o1.order_status="ordered"
         return o1.name AS username, 
-        o1.order_item As name, o1.price AS price, o1.order_status AS description limit 1
+        o1.order_item As name, o1.price AS price, o1.order_status AS description 
         '''.format(username)
         return graph.run(q).data()
     
@@ -108,17 +117,26 @@ class User:
 
         if self.find_order(username) and self.check_status("ordering"):
             order=self.find_order(username) and self.check_status("ordering")
+            q2 = '''MATCH (u:User) where u.email = '{0}'
+            match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering"  
+            return o1.order_item AS item'''.format(username)
+            pr1=graph.run(q2).data()
+            pp1=pr1[0]['item']+"*"+item+"*"
+            print("aabbcc",pr1," ",pp1)
             q = '''MATCH (n:User) where n.email = '{0}'
-            match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering" set o1.order_item=o1.order_item+", "+'{1}' 
-            return f.price AS price'''.format(username,item)
+            match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordering" set o1.order_item='{1}' 
+            return o1.price AS price'''.format(username,pp1)
             pr=graph.run(q).data()
+            print("aaaaaa",pr)
             pp=str(int(pr[0]['price'])+int(price))
+            print("bbbbbb",pp)
             q1 = "MATCH (n:User) where n.email = '"+username+"' match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status='ordering' set o1.price="+pp+" return f.food_id AS food_id, f.name As name,f.desc AS description, f.price AS price"
             graph.run(q1)
             print(order)
         else:
             p=int(price)
-            order=Node('Order', name=username,order_status="ordering",order_item=item,price=p)
+            itm="*"+item+"*"
+            order=Node('Order', name=username,order_status="ordering",order_item=itm,price=p)
             graph.create(order)
         
 
@@ -127,15 +145,16 @@ class User:
         graph.create(rel1)
         rel2=Relationship(order,'Dishes',food)
         graph.create(rel2)
+        print(order)
 
 
         return True
 
     def getOrder_man(self):
 
-        q = '''Match (u:User)-[:Ordered]->(o1:Order)-[d:Dishes]->(f:Food_Items) where o1.order_status="ordered"
+        q = '''Match (u:User)-[:Ordered]->(o1:Order) where o1.order_status="ordered"
         return o1.name AS username, 
-        o1.order_item As name, o1.price AS price limit 1
+        o1.order_item As name, o1.price AS price 
         '''
         #query="MATCH (user:User)-[:ORDERED]->(order:Order) - [:dishes]->(food:Food_Items) RETURN food.name AS name,food.price AS price,user.email AS username,order.id AS id,order.date AS date,order.timestamp AS time, food.desc AS description"
         return graph.run(q).data()
