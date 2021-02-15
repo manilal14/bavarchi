@@ -3,3 +3,4 @@
 venv/
 __pycache__/
 application/__pycache__/
+DB_CRED.py
