@@ -4,11 +4,12 @@ from datetime import datetime
 import pytz
 import uuid
 
-url = 'http://localhost:7474'
-username = "neo4j"
-password = "test"
+# create and DB_CRED.py file if not created and
+# fill your db credential in that file
+from DB_CRED import DB_URL, DB_USERNAME, DB_PASS
 
-graph = Graph(url, auth = (username, password))
+
+graph = Graph(DB_URL, auth = (DB_USERNAME, DB_PASS))
 matcher = NodeMatcher(graph)
 
 def getAllFoodItems():
