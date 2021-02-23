@@ -3,6 +3,8 @@ from py2neo.matching import *
 from datetime import datetime
 import pytz
 import uuid
+import geocoder
+
 
 # create and DB_CRED.py file if not created and
 # fill your db credential in that file
@@ -11,6 +13,7 @@ from DB_CRED import DB_URL, DB_USERNAME, DB_PASS
 
 graph = Graph(DB_URL, auth = (DB_USERNAME, DB_PASS))
 matcher = NodeMatcher(graph)
+
 
 def getAllFoodItems():
     query = '''
@@ -22,6 +25,14 @@ def getAllFoodItems():
 
 def find_food(fname):
     return matcher.match('Food_Items',name=fname).first()
+
+def find_foods(name):
+    x=name.lower()
+    p='{}.*'.format(x)
+    print(p)
+    query="Match(f:Food_Items) WHERE f.name=~'"+p+"' RETURN f.food_id AS food_id, f.name AS name,f.desc AS desc, f.price AS price, f.image_path AS image_path"
+    return graph.run(query).data()
+
 
 def add_dish(food_id, item, price, image, desc):
     if find_food(item):
@@ -60,8 +71,6 @@ def delete_item(username,food_id,item,price):
 
     return True
 
-def find_food(fname):
-    return matcher.match('Food_Items',name=fname).first()
 
 def date():
     return datetime.now().strftime('%Y-%m-%d') 
@@ -86,6 +95,14 @@ def deliver_order_man():
     	
 
 class User:
+
+    def create_dummy_users(self):
+        for i in range(5):
+            name="user1"+str(i+1)
+            email="useremail"+str(i+1)+"@gmail.com"
+            user=Node("User",name=name,email=email,password='1234')
+            graph.create(user)
+
 
     def find_food_items(self,id,name):
         print("food_id ="+str(id))

@@ -19,7 +19,12 @@
         <a class="nav-link" href="{{url_for('order_history')}}">Order History</a>
       </div>
     </div>
-
+    <div style="width:100%;text-align:center">
+    <form action="{{ url_for('search') }}" class="" method="post">
+      <input type="text" name="searchitem" id="searchitem"  placeholder="what are you looking for?">
+      </br>
+    </form>
+  </div>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto">
         <a class="nav-link" href="{{url_for('myCart')}}">Cart</a>
@@ -34,7 +39,7 @@
   <h4>        Click on "Order" button to place the order </h4>
 <br>
   <div class="row">
-
+  
     {% for item in foods %}
 
     <div class="col-lg-4">

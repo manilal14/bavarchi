@@ -1,6 +1,6 @@
 from application import app
 from flask import render_template,request,session,url_for,redirect, flash
-from .models import User, getAllFoodItems, add_dish, delete_dish, delete_item, accept_order_man, deliver_order_man
+from .models import User, getAllFoodItems, add_dish, delete_dish, delete_item, accept_order_man, deliver_order_man,find_foods
 
 @app.route('/')
 def home():
@@ -144,7 +144,15 @@ def myCart():
 	o1 = User().getUserCartOrder(username)
 	return render_template('display.html',msg='Order Placed Successfully',o1=o1)
 
-
+@app.route('/search',methods=['GET','POST'])
+def search():
+	item = request.form['searchitem']
+	print(item)
+	o1=find_foods(item)
+	foods=o1
+	print(foods)
+	 
+	return render_template("menu_list.html",foods=o1)
 	
 
 #--------------------------Helper functions ------------------------------------
